@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="calc.css"> 
+ 
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  <a class="navbar-brand" href="https://github.com/maiya-tracy">Calculator</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			  <li class="nav-item">
+				<a class="nav-link" href="calchome.html">Home </a>
+			  </li>
+			  <li class="nav-item active">
+				<a class="nav-link" href="calc.html">Calculator <span class="sr-only">(current)</span></a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="calcp2.html">About</a>
+			  </li>
+			  <li class="nav-item">
+				<a class="nav-link" href="https://www.linkedin.com/in/maiya-tracy-39081b72">About Maiya</a>
+			  </li>
+			</ul>
+		  </div>
+		</nav>
+		<div class="calculator">
+			<div class="calculator_screen">
+				<input type="text" class="screen" placeholder="0" value="" disabled />
+			</div>
+			<div class="calculator_keys">
+				<div class="operations row">
+					<button type="button" value="+" class="add operator btn btn-outline-info">+</button>
+					<button type="button" value="-" class="subtract operator btn btn-outline-info">-</button>
+					<button type="button" value="x" class="multiply operator btn btn-outline-info">&times;</button>
+					<button type="button" value="/" class="divide operator btn btn-outline-info">&divide;</button>
+				</div>
+				<div class="numbersandequals">
+					<div class="numbers">
+						<div class="row">
+							<button id="7" type="button" value="7" class="btn btn-outline-info">7</button>
+							<button id="8" type="button" value="8" class="btn btn-outline-info">8</button>
+							<button id="9" type="button" value="9" class="btn btn-outline-info">9</button>
+						</div>
+						<div class="row">
+							<button id="4" type="button" value="4" class="btn btn-outline-info">4</button>
+							<button id="5" type="button" value="5" class="btn btn-outline-info">5</button>
+							<button id="6" type="button" value="6" class="btn btn-outline-info">6</button>
+						</div>
+						<div class="row">
+							<button id="1" type="button" value="1" class="btn btn-outline-info">1</button>
+							<button id="2" type="button" value="2" class="btn btn-outline-info">2</button>
+							<button id="3" type="button" value="3" class="btn btn-outline-info">3</button>
+						</div>
+						<div class="row">
+							<button id="0" type="button" value="0" class="btn btn-outline-info">0</button>
+							<button id="." type="button" value="." class="decimal btn btn-outline-info">.</button>
+							<button id="AC" type="button" value="clr" class="clear btn btn-outline-info">AC</button>
+						</div>
+					</div>
+					<div class="equal">
+						<button class="clrscrn btn btn-outline-info" value="clrscrn" type="button">Clear Screen</button>
+						<button id="eq" type="button" value="calculate" class="calculate btn btn-outline-info">=</button>
+					</div>
+				</div>
+			</div>
+		</div> 
+	</div> <!--end of container -->
+	<script>
+		const calculator = {
+		  displayVal: '0',
+		  firstOperand: null,
+		  waitingForSecondOperand: false,
+		  operator: null,
+		};
+		
+		function updateDisplay() {
+		  const display = document.querySelector('.screen');
+		  display.value = calculator.displayVal;
+		}
+		
+		function inputDigit(digit) {
+		  const { displayVal } = calculator;
+		  if (calculator.waitingForSecondOperand === true) {
+			calculator.displayVal = digit;
+			calculator.waitingForSecondOperand = false;
+		  }
+		  else {
+			if (displayVal === '0') {
+				calculator.displayVal = digit;
+			  }
+			  else {
+				calculator.displayVal = displayVal + digit;
+			  }
+			  console.log(calculator);
+		  }
+		}
+		
+		function inputDecimal(dec) {
+			if(!calculator.displayVal.includes(dec)) {
+				calculator.displayVal += dec;
+			}
+		}
+		
+		function calculate() {
+			switch (calculator.operator) {
+				case ('+'):
+					calculator.displayVal = calculator.firstOperand + calculator.secondOperand;
+					break;
+				case ('-'):
+					calculator.displayVal = calculator.firstOperand - calculator.secondOperand;
+					break;
+				case ('x'):
+					calculator.displayVal = calculator.firstOperand * calculator.secondOperand;
+					break;
+				case ('/'):
+					calculator.displayVal = calculator.firstOperand / calculator.secondOperand;
+					break;
+
+			}
+			updateDisplay();
+		}
+		
+		function clearScreen() {
+			calculator.displayVal = '0';
+			updateDisplay();
+		}
+		
+		function clearAll() {
+			calculator.displayVal = '0';
+			calculator.firstOperand = null;
+			calculator.operator = null;
+			calculator.waitingForSecondOperand = false;
+			updateDisplay();
+		}
+		
+		updateDisplay();
+		
+		const keys = document.querySelector('.calculator_keys');
+		keys.addEventListener('click', (event) => {
+		  const { target } = event;
+		  if (!target.matches('button')) {
+			return;
+		  }
+
+		  if (target.classList.contains('operator')) {
+			calculator.firstOperand = parseFloat(calculator.displayVal);
+			calculator.waitingForSecondOperand = true;
+			calculator.operator = target.value;
+			updateDisplay();
+			console.log(calculator);
+			return;
+		  }
+
+		  if (target.classList.contains('decimal')) {
+			inputDecimal(target.value);
+			updateDisplay();
+			return;
+		  }
+
+		  if (target.classList.contains('clear')) {
+			clearAll();
+			return;
+		  }
+		  
+		  if (target.classList.contains('calculate')) {
+			calculator.secondOperand = parseFloat(calculator.displayVal);
+			calculate();
+			return;
+		  }
+		  
+		  if (target.classList.contains('clrscrn')) {
+			clearScreen();
+			return;
+		  }
+		
+			inputDigit(target.value);
+			updateDisplay();
+			
+			
+		});
+		
+		
+	</script>
+</body>
+</html>
